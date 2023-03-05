@@ -1,6 +1,7 @@
 # %% LIBRERIAS
 import numpy as np
 import matplotlib.pyplot as plt
+import random
 
 # %% VARIABLES GLOBALES
 
@@ -23,19 +24,16 @@ def bordes(t):
         i = i + 1
     return t
 
-# %% TABLERO BASE CON 0 en el medio y bordes -1 
+#%% 4. TABLERO BASE CON 0 en el medio y bordes -1 
 def tablero_base(n, debug=False):
     tablero = crear_tablero(n)
     tablero = bordes(tablero)
     if debug:
         print(tablero)
     return tablero
+t1 = tablero_base(9)
 
-
-# %% 4. Crear un tablero que contenga un valle de 7 × 7 posiciones utilizables y guardarlo en una variable llamada t1 (usar la función de nida en el punto anterior).
-t1 = tablero_base(9, True)
-
-# %% 5. Implementar la función es_borde(tablero, coord) que reciba un tablero y una posición, y devuelva True si dicha posición es un borde y False si no
+# %% IDENTIFICA LOS BORDES
 def es_borde(tablero, coord, debug=False):
     borde = False
     if tablero[coord] == -1:
@@ -45,16 +43,15 @@ def es_borde(tablero, coord, debug=False):
     return borde
 # es_borde(t1, (5,6), True)
 
-# %% 7
+# %% 7 CAIDA DE LOS COPOS
 def tirar_copo(tablero, coord, debug=False):
     tablero[coord] = tablero[coord] + 1
     if debug:
         print(tablero)
     return tablero
+# tirar_copo(t1, (2, 5), True)
 
-# tirar_copo(t1, (3, 3))
-# tirar_copo(t1, (5, 3), True)
-#%% 8 
+#%% 8, 9 y 10 COORDENADA DE VECINOS
 # a = [[1, 2, 3, 4], [5, 6], [7, 8, 9]]
 # for i in range(len(a)):
 #     for j in range(len(a[i])):
@@ -84,4 +81,21 @@ def vecinos_de (tablero, coord, debug = False):
     if debug:
         print(vecinos)
     return vecinos
-vecinos_de(t1, (1, 4), True)
+# vecinos_de(t1, (7, 7), True)
+
+#%% 11. DESBORDAR
+tirar_copo(t1, (4, 4))
+tirar_copo(t1, (4, 4))
+tirar_copo(t1, (4, 4))
+tirar_copo(t1, (4, 4))
+def desbrodar_pocision(tablero, coord, debug = False):
+    vecinos = vecinos_de(tablero, coord)
+    if tablero [coord] >= 4:
+        tablero[coord] = tablero[coord] - 4
+        tablero [vecinos] = tablero [vecinos] + 1
+    if debug:
+        print(tablero)
+    return tablero
+
+
+desbrodar_pocision(t1, (4, 4), True)
