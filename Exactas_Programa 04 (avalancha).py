@@ -62,40 +62,42 @@ def vecinos_de (tablero, coord, debug = False):
     vecinos = []
     a = coord[0]
     b = coord[1]
-    down = [(a + 1, b)]
-    d = tablero [(a + 1, b)] != -1
-    up = [(a - 1, b)]
+    up = (a - 1, b)
     u = tablero [(a - 1, b)] != -1
-    right = [(a, b + 1)]
+    right = (a, b + 1)
     r = tablero [(a, b + 1)] != -1
-    left = [(a, b - 1)]
+    down = (a + 1, b)
+    d = tablero [(a + 1, b)] != -1
+    left = (a, b - 1)
     l = tablero [(a, b - 1)] != -1
-    if d:
-        vecinos.append(down)
     if u:
         vecinos.append(up)
     if r:
         vecinos.append(right)
+    if d:
+        vecinos.append(down)
     if l:
         vecinos.append(left)
     if debug:
         print(vecinos)
     return vecinos
-# vecinos_de(t1, (7, 7), True)
+# vecinos_de(t1, (4, 4), True)
 
 #%% 11. DESBORDAR
-tirar_copo(t1, (4, 4))
-tirar_copo(t1, (4, 4))
-tirar_copo(t1, (4, 4))
-tirar_copo(t1, (4, 4))
 def desbrodar_pocision(tablero, coord, debug = False):
     vecinos = vecinos_de(tablero, coord)
-    if tablero [coord] >= 4:
+    i = 0
+    while tablero [coord] >= 4:
         tablero[coord] = tablero[coord] - 4
-        tablero [vecinos] = tablero [vecinos] + 1
-    if debug:
-        print(tablero)
+        while i < len(vecinos):
+            tirar_copo(tablero, vecinos[i])
+            if debug:
+                print(vecinos[i])
+            i = i + 1
+        if debug:
+            print(vecinos)
+    print(tablero)
     return tablero
 
 
-desbrodar_pocision(t1, (4, 4), True)
+# desbrodar_pocision(t1, (4, 4))
