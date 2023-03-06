@@ -25,79 +25,61 @@ def bordes(t):
     return t
 
 #%% 4. TABLERO BASE CON 0 en el medio y bordes -1 
-def tablero_base(n, debug=False):
-    tablero = crear_tablero(n)
-    tablero = bordes(tablero)
+def desbordar_valle(tablero, debug=False):
+    cantidad_filas = t1.shape[0]
+    cantidad_columnas = t1.shape[1]
+    for i in range(1, cantidad_filas - 1):
+        for j in range(1, cantidad_columnas - 1):
+            if tablero(i, j) >= 4:
+                desbrodar_pocision(tablero, (i, j))
     if debug:
         print(tablero)
     return tablero
+
+
+# %% 13. LUGARES A DESBORDAR devuelve True si hay alguna posición en el tablero que hay que desbordar, y False si no.
+
+
+def hay_que_desbordar(tablero):
+    cantidad_filas = t1.shape[0]
+    cantidad_columnas = t1.shape[1]
+    falta = False
+    for i in range(1, cantidad_filas - 1):
+        for j in range(1, cantidad_columnas - 1):
+            if 
+                falta = True
+    print(falta)
+    return falta
+
+
+#    i = 0
+#    desbordar = False
+#    while (i < tablero.shape[0] and desbordar == False):
+#        j = 0
+#        while (i < tablero.shape[1] and not desbordar):
+#            if tablero [(i, j)] >= 4:
+#                desbordar = True
+#            j = j + 1
+#        i = i + 1
+#    print(desbordar)
+#    return desbordar
+
+#     # %% ESTABILIZAR mientras haya alguna posición que tenga al menos cuatro copos, llame a desbordar_valle.
+# def estabilizar(tablero):
+#     while (hay_que_desbordar(tablero)):
+#         desbordar_valle(tablero)
+
+# %% LLAMADAS:
+
+
 t1 = tablero_base(9)
-
-# %% IDENTIFICA LOS BORDES
-def es_borde(tablero, coord, debug=False):
-    borde = False
-    if tablero[coord] == -1:
-        borde = True
-    if debug:
-        print(borde)
-    return borde
-# es_borde(t1, (5,6), True)
-
-# %% 7 CAIDA DE LOS COPOS
-def tirar_copo(tablero, coord, debug=False):
-    tablero[coord] = tablero[coord] + 1
-    if debug:
-        print(tablero)
-    return tablero
-# tirar_copo(t1, (2, 5), True)
-
-#%% 8, 9 y 10 COORDENADA DE VECINOS
-# a = [[1, 2, 3, 4], [5, 6], [7, 8, 9]]
-# for i in range(len(a)):
-#     for j in range(len(a[i])):
-#         print(a[i][j], end=' ')
-#     print()
-
-def vecinos_de (tablero, coord, debug = False):
-    vecinos = []
-    a = coord[0]
-    b = coord[1]
-    up = (a - 1, b)
-    u = tablero [(a - 1, b)] != -1
-    right = (a, b + 1)
-    r = tablero [(a, b + 1)] != -1
-    down = (a + 1, b)
-    d = tablero [(a + 1, b)] != -1
-    left = (a, b - 1)
-    l = tablero [(a, b - 1)] != -1
-    if u:
-        vecinos.append(up)
-    if r:
-        vecinos.append(right)
-    if d:
-        vecinos.append(down)
-    if l:
-        vecinos.append(left)
-    if debug:
-        print(vecinos)
-    return vecinos
-# vecinos_de(t1, (4, 4), True)
-
-#%% 11. DESBORDAR
-def desbrodar_pocision(tablero, coord, debug = False):
-    vecinos = vecinos_de(tablero, coord)
-    i = 0
-    while tablero [coord] >= 4:
-        tablero[coord] = tablero[coord] - 4
-        while i < len(vecinos):
-            tirar_copo(tablero, vecinos[i])
-            if debug:
-                print(vecinos[i])
-            i = i + 1
-        if debug:
-            print(vecinos)
-    print(tablero)
-    return tablero
-
-
-# desbrodar_pocision(t1, (4, 4))
+tirar_copo(t1, (4, 4))
+tirar_copo(t1, (4, 4))
+tirar_copo(t1, (4, 4))
+tirar_copo(t1, (4, 4))
+tirar_copo(t1, (6, 6))
+tirar_copo(t1, (6, 6))
+tirar_copo(t1, (6, 6))
+tirar_copo(t1, (6, 6))
+hay_que_desbordar(t1)
+desbordar_valle(t1)
