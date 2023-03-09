@@ -120,7 +120,7 @@ def desbordar_valle(t, debug = False):
     for i in range(1, cantidad_filas - 1):
         for j in range(1, cantidad_columnas - 1):
             if t[(i,j)] >= 4:
-                t = desbrodar_pocision(t, (i,j), True)
+                t = desbrodar_pocision(t,(i,j))
     if debug:
        print(t)
     return t
@@ -150,9 +150,19 @@ def estabilizar(t, debug = False):
         print(t)
     return t
 
+# %% COPO EN EL MEDIO:
+def paso(t, debug = False):
+    filas = t1.shape[0]
+    columnas = t1.shape[1]
+    punto_medio = ((int(filas/2)),(int(columnas/2)))
+    tirar_copo(t,(punto_medio))
+    estabilizar(t)
+    if debug:
+        print(t)
+    return t
+
+
 # %% LLAMADAS:
-
-
 # t1 = crear_tablero(7, True)
 # bordes(t1, True)
 t1 = tablero_base(7)
@@ -174,3 +184,14 @@ t1 = tablero_base(7)
 # tirar_copo(t1, (3,4))
 # desbordar_valle(t1, True)
 # estabilizar(t1, True)
+paso(t1)
+paso(t1)
+paso(t1)
+paso(t1)
+paso(t1)
+paso(t1)
+paso(t1)
+paso(t1)
+paso(t1, True)
+
+
