@@ -115,24 +115,15 @@ def desbrodar_pocision(t, coord, debug=False):
 
 
 def desbordar_valle(t, debug = False):
-    # cantidad_filas = t1.shape[0]
-    # cantidad_columnas = t1.shape[1]
-    # for i in range(1, cantidad_filas - 1):
-    #     for j in range(1, cantidad_columnas - 1):
-    #         ___COMPLETAR___
-
-   i = 0
-   desbordar = False
-   while (i < t.shape[0] and desbordar == False):
-       j = 0
-       while (i < t.shape[1] and not desbordar):
-           if t[(i,j)] >= 4:
-               desbordar = True
-           j = j + 1
-       i = i + 1
-   if debug:
-       print(desbordar)
-   return desbordar
+    cantidad_filas = t1.shape[0]
+    cantidad_columnas = t1.shape[1]
+    for i in range(1, cantidad_filas - 1):
+        for j in range(1, cantidad_columnas - 1):
+            if t[(i,j)] >= 4:
+                t = desbrodar_pocision(t, (i,j), True)
+    if debug:
+       print(t)
+    return t
 
 
 # %% 13. LUGARES A DESBORDAR devuelve True si hay alguna posición en el tablero que hay que desbordar, y False si no.
@@ -152,9 +143,12 @@ def hay_que_desbordar(t, debug = False):
 
 
 # %% ESTABILIZAR mientras haya alguna posición que tenga al menos cuatro copos, llame a desbordar_valle.
-# def estabilizar(tablero):
-#     while (hay_que_desbordar(tablero)):
-#         desbordar_valle(tablero)
+def estabilizar(t, debug = False):
+    while (hay_que_desbordar(t)):
+        desbordar_valle(t)
+    if debug:
+        print(t)
+    return t
 
 # %% LLAMADAS:
 
@@ -165,19 +159,18 @@ t1 = tablero_base(7)
 # es_borde(t1, (0,0), True)
 # tirar_copo(t1, (2,5), True)
 # vecinos_de(t1, (7,7), True)
-tirar_copo(t1, (4,4))
-tirar_copo(t1, (4,4))
-tirar_copo(t1, (4,4))
-tirar_copo(t1, (4,4))
+# tirar_copo(t1, (4,4))
+# tirar_copo(t1, (4,4))
+# tirar_copo(t1, (4,4))
+# tirar_copo(t1, (4,4))
 # desbrodar_pocision(t1, (4,4), True)
-hay_que_desbordar(t1, True)
+# hay_que_desbordar(t1, True)
 # tirar_copo(t1, (4,4))
 # tirar_copo(t1, (4,4))
 # tirar_copo(t1, (4,4))
 # tirar_copo(t1, (4,4))
-# tirar_copo(t1, (6,6))
-# tirar_copo(t1, (6,6))
-# tirar_copo(t1, (6,6))
-# tirar_copo(t1, (6,6))
-# hay_que_desbordar(t1)
-desbordar_valle(t1, True)
+# tirar_copo(t1, (3,4))
+# tirar_copo(t1, (3,4))
+# tirar_copo(t1, (3,4))
+# desbordar_valle(t1, True)
+# estabilizar(t1, True)
