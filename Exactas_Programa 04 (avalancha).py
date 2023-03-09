@@ -4,6 +4,9 @@
 import numpy as np
 import matplotlib.pyplot as plt
 import random
+import imageio
+import os
+
 
 # %% VARIABLES GLOBALES:
 
@@ -161,6 +164,39 @@ def paso(t, debug = False):
         print(t)
     return t
 
+# %% VIDEO:
+
+
+def guardar_foto(t, paso):
+    dir_name = "output"
+    if not os.path.exists(dir_name): # me fijo si no existe el directorio
+        os.mkdir(dir_name) #si no existe lo creo
+    ax = plt.gca()
+    file_name = os.path.join(dir_name, "out{:05}.png".format(paso))
+    plt.imshow(t, vmin=-1, vmax=3)
+    ax.set_title("Copos tirados: {}".format(paso+1)) #titulo
+    plt.savefig(file_name)
+
+def hacer_video(cant_fotos):
+    dir_name = "output"
+    lista_fotos=[]
+    for i in range (cant_fotos):
+        file_name = os.path.join(dir_name, "out{:05}.png".format(i))
+        lista_fotos.append(imageio.imread(file_name))
+    video_name = os.path.join(dir_name, "avalancha.mp4")
+    # genero el video con 10 Copos por segundo. Explorar otros valores:
+    imageio.mimsave(video_name, lista_fotos, fps=10)
+    print('Estamos trabajando en el directorio', os.getcwd())
+    print('y se guardo el video:', video_name)
+
+def probar(n, pasos=200):
+    t = crear_tablero(n)
+    for i in range(pasos):
+        paso(t)
+        guardar_foto(t, i)
+    hacer_video(pasos)
+    return t
+
 
 # %% LLAMADAS:
 # t1 = crear_tablero(7, True)
@@ -184,8 +220,6 @@ t1 = tablero_base(7)
 # tirar_copo(t1, (3,4))
 # desbordar_valle(t1, True)
 # estabilizar(t1, True)
-paso(t1)
-paso(t1)
 paso(t1)
 paso(t1)
 paso(t1)
