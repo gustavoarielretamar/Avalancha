@@ -1,6 +1,4 @@
 # %% LIBRERIAS:
-
-
 import numpy as np
 import matplotlib.pyplot as plt
 import random
@@ -8,50 +6,39 @@ import imageio
 import os
 
 
-# %% VARIABLES GLOBALES:
-
-
 # %% TABLERO EN 0:
-
-
 def crear_tablero(n, debug=False):
-    t = np.repeat(0, (n+2)*(n+2)).reshape((n+2), (n+2))
+    t = np.repeat(0, (n + 2) * (n + 2)).reshape((n + 2), (n + 2))
     if debug:
         print(t)
     return t
-
-
 # %% BORDES EN -1:
-
-
-def bordes(t, debug = False):
+def bordes(t, debug=False):
     for i in range(0, len(t)):
-        t[(0, i)] = - 1
-        t[(len(t)-1, i)] = - 1
+        t[(0, i)] = -1
+        t[(len(t) - 1, i)] = -1
         i = i + 1
     for i in range(0, len(t)):
-        t[(i, 0)] = - 1
-        t[(i, len(t)-1)] = - 1
+        t[(i, 0)] = -1
+        t[(i, len(t) - 1)] = -1
         i = i + 1
     if debug:
         print(t)
     return t
-
-
 # %% 4. TABLERO BASE CON 0 en el medio y bordes -1
-
-
 def tablero_base(n, debug=False):
     t = crear_tablero(n)
     t = bordes(t)
     if debug:
         print(t)
     return t
-
+# %% TABLERO ALEATORIO:
+def generar_tablero_aleatorio(n, cant_copos, debug=False):
+    t1 = tablero_base(n, debug)
+    for i in range (1, t1.len-1):
+        tirar_copo(t1)
 
 # %% IDENTIFICA LOS BORDES
-
-
 def es_borde(t, coord, debug=False):
     borde = False
     if t[coord] == -1:
@@ -59,33 +46,26 @@ def es_borde(t, coord, debug=False):
     if debug:
         print(borde)
     return borde
-
-
 # %% 7 CAIDA DE LOS COPOS
-
-
-def tirar_copo(t, coord, debug=False):
+def tirar_copo(t, debug=False):
+    coord = random.choice(t1)
     t[coord] = t[coord] + 1
     if debug:
         print(t)
     return t
-
-
 # %% 8, 9 y 10 COORDENADA DE VECINOS
-
-
 def vecinos_de(t, coord, debug=False):
     vecinos = []
     a = coord[0]
     b = coord[1]
-    v1 = ((a+1),b)
-    c1 = t[((a+1),b)] != -1
-    v2 = ((a-1),b)
-    c2 = t[((a-1),b)] != -1
+    v1 = ((a + 1), b)
+    c1 = t[((a + 1), b)] != -1
+    v2 = ((a - 1), b)
+    c2 = t[((a - 1), b)] != -1
     v3 = (a, (b + 1))
-    c3 = t[(a,(b+1))] != -1
-    v4 = (a,(b-1))
-    c4 = t[(a,(b-1))] != -1
+    c3 = t[(a, (b + 1))] != -1
+    v4 = (a, (b - 1))
+    c4 = t[(a, (b - 1))] != -1
     if c1:
         vecinos.append(v1)
     if c2:
@@ -97,11 +77,7 @@ def vecinos_de(t, coord, debug=False):
     if debug:
         print(vecinos)
     return vecinos
-
-
 # %% 11. DESBORDAR
-
-
 def desbrodar_pocision(t, coord, debug=False):
     vecinos = vecinos_de(t, coord)
     i = 0
@@ -113,95 +89,83 @@ def desbrodar_pocision(t, coord, debug=False):
         if debug:
             print(t)
     return t
-
 # %% DESBORDAR EL TABLERO:
-
-
-def desbordar_valle(t, debug = False):
-    cantidad_filas = t1.shape[0]
-    cantidad_columnas = t1.shape[1]
+def desbordar_valle(t, debug=False):
+    cantidad_filas = t.shape[0]
+    cantidad_columnas = t.shape[1]
     for i in range(1, cantidad_filas - 1):
         for j in range(1, cantidad_columnas - 1):
-            if t[(i,j)] >= 4:
-                t = desbrodar_pocision(t,(i,j))
+            if t[(i, j)] >= 4:
+                t = desbrodar_pocision(t, (i, j))
     if debug:
-       print(t)
+        print(t)
     return t
-
-
 # %% 13. LUGARES A DESBORDAR devuelve True si hay alguna posición en el tablero que hay que desbordar, y False si no.
-
-
-def hay_que_desbordar(t, debug = False):
-    cantidad_filas = t1.shape[0]
-    cantidad_columnas = t1.shape[1]
+def hay_que_desbordar(t, debug=False):
+    cantidad_filas = t.shape[0]
+    cantidad_columnas = t.shape[1]
     falta = False
     for i in range(1, cantidad_filas - 1):
         for j in range(1, cantidad_columnas - 1):
-            if t[i,j] >= 4:
+            if t[i, j] >= 4:
                 falta = True
     if debug:
         print(falta)
     return falta
-
-
 # %% ESTABILIZAR mientras haya alguna posición que tenga al menos cuatro copos, llame a desbordar_valle.
-def estabilizar(t, debug = False):
-    while (hay_que_desbordar(t)):
+def estabilizar(t, debug=False):
+    while hay_que_desbordar(t):
         desbordar_valle(t)
     if debug:
         print(t)
     return t
-
 # %% COPO EN EL MEDIO:
-def paso(t, debug = False):
-    filas = t1.shape[0]
-    columnas = t1.shape[1]
-    punto_medio = ((int(filas/2)),(int(columnas/2)))
-    tirar_copo(t,(punto_medio))
+def paso(t, debug=False):
+    filas = t.shape[0]
+    columnas = t.shape[1]
+    punto_medio = ((int(filas / 2)), (int(columnas / 2)))
+    tirar_copo(t, (punto_medio))
     estabilizar(t)
     if debug:
         print(t)
     return t
-
 # %% VIDEO:
-
-
 def guardar_foto(t, paso):
     dir_name = "output"
-    if not os.path.exists(dir_name): # me fijo si no existe el directorio
-        os.mkdir(dir_name) #si no existe lo creo
+    if not os.path.exists(dir_name):  # me fijo si no existe el directorio
+        os.mkdir(dir_name)  # si no existe lo creo
     ax = plt.gca()
     file_name = os.path.join(dir_name, "out{:05}.png".format(paso))
     plt.imshow(t, vmin=-1, vmax=3)
-    ax.set_title("Copos tirados: {}".format(paso+1)) #titulo
+    ax.set_title("Copos tirados: {}".format(paso + 1))  # titulo
     plt.savefig(file_name)
-
 def hacer_video(cant_fotos):
     dir_name = "output"
-    lista_fotos=[]
-    for i in range (cant_fotos):
+    lista_fotos = []
+    for i in range(cant_fotos):
         file_name = os.path.join(dir_name, "out{:05}.png".format(i))
         lista_fotos.append(imageio.imread(file_name))
     video_name = os.path.join(dir_name, "avalancha.mp4")
     # genero el video con 10 Copos por segundo. Explorar otros valores:
     imageio.mimsave(video_name, lista_fotos, fps=10)
-    print('Estamos trabajando en el directorio', os.getcwd())
-    print('y se guardo el video:', video_name)
-
-def probar(n, pasos=200):
+    print("Estamos trabajando en el directorio", os.getcwd())
+    print("y se guardo el video:", video_name)
+def probar(n, pasos):
     t = crear_tablero(n)
     for i in range(pasos):
         paso(t)
         guardar_foto(t, i)
     hacer_video(pasos)
     return t
-
+# %% PARAMETROS:
+n = 7
+cant_fotos = 200
+pasos = 200
 
 # %% LLAMADAS:
 # t1 = crear_tablero(7, True)
 # bordes(t1, True)
-t1 = tablero_base(7)
+# t1 = tablero_base(7)
 # es_borde(t1, (0,0), True)
 # tirar_copo(t1, (2,5), True)
 # vecinos_de(t1, (7,7), True)
@@ -220,12 +184,5 @@ t1 = tablero_base(7)
 # tirar_copo(t1, (3,4))
 # desbordar_valle(t1, True)
 # estabilizar(t1, True)
-paso(t1)
-paso(t1)
-paso(t1)
-paso(t1)
-paso(t1)
-paso(t1)
-paso(t1, True)
-
-
+# paso(t1, True)
+probar(n, pasos)
