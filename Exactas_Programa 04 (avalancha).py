@@ -32,12 +32,6 @@ def tablero_base(n, debug=False):
     if debug:
         print(t)
     return t
-# %% TABLERO ALEATORIO:
-def generar_tablero_aleatorio(n, cant_copos, debug=False):
-    t1 = tablero_base(n, debug)
-    for i in range (1, t1.len-1):
-        tirar_copo(t1)
-
 # %% IDENTIFICA LOS BORDES
 def es_borde(t, coord, debug=False):
     borde = False
@@ -47,8 +41,7 @@ def es_borde(t, coord, debug=False):
         print(borde)
     return borde
 # %% 7 CAIDA DE LOS COPOS
-def tirar_copo(t, debug=False):
-    coord = random.choice(t1)
+def tirar_copo(t, coord, debug=False):
     t[coord] = t[coord] + 1
     if debug:
         print(t)
@@ -163,26 +156,6 @@ cant_fotos = 200
 pasos = 200
 
 # %% LLAMADAS:
-# t1 = crear_tablero(7, True)
-# bordes(t1, True)
 # t1 = tablero_base(7)
-# es_borde(t1, (0,0), True)
-# tirar_copo(t1, (2,5), True)
-# vecinos_de(t1, (7,7), True)
-# tirar_copo(t1, (4,4))
-# tirar_copo(t1, (4,4))
-# tirar_copo(t1, (4,4))
-# tirar_copo(t1, (4,4))
-# desbrodar_pocision(t1, (4,4), True)
-# hay_que_desbordar(t1, True)
-# tirar_copo(t1, (4,4))
-# tirar_copo(t1, (4,4))
-# tirar_copo(t1, (4,4))
-# tirar_copo(t1, (4,4))
-# tirar_copo(t1, (3,4))
-# tirar_copo(t1, (3,4))
-# tirar_copo(t1, (3,4))
-# desbordar_valle(t1, True)
-# estabilizar(t1, True)
-# paso(t1, True)
+# %% 
 probar(n, pasos)
